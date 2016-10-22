@@ -18,7 +18,8 @@ void message_bus::thread_loop() {
 		}
 		relay_mutex.unlock();
 		if (r != NULL) {
-			r->sys->handle_message(&(r->msg));
+			r->sys->handle_message(r->msg);
+			delete r->msg;
 			delete r; //clean up!
 		}
 	}
@@ -27,6 +28,7 @@ void message_bus::thread_loop() {
 //----------
 
 void message_bus::synchronize_threads() {
+	while (!relay_queue.empty()) { /*wait*/ }
 	synch_count = 0;
 	synch = true;
 	while (synch_count < num_threads -1) {} //wait to be synchronized
@@ -42,7 +44,7 @@ void message_bus::attach_system(subsystem* sys) {
 
 //----------
 
-message_bus::message_bus(int num_threads) : num_threads(num_threads), synch(false) {
+message_bus::message_bus(int num_threads) : num_threads(num_threads), running(true), synch(false) {
 	for (int i = 0; i < num_threads; i++) {
 		threads.push_back( new std::thread(&message_bus::thread_loop, this) );
 	}
@@ -109,14 +111,13 @@ void message_bus::update() {
 			if ((*sysiterator)->get_flags() & flag) {
 				relay *r = new relay;
 				r->sys = *sysiterator;
-				r->msg = *msg;
+				r->msg = msg;
 				relay_mutex.lock();
 				relay_queue.push(r);
 				relay_mutex.unlock();
 			}
 		}
 		
-		delete msg;
 		message_queue.pop_front();
 	}
 	//don't keep trying to handle messages while updating

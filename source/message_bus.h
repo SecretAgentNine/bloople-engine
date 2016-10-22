@@ -16,7 +16,7 @@ class subsystem;
 //----------
 
 struct relay {
-	message msg;
+	message* msg;
 	subsystem* sys;
 };
 
