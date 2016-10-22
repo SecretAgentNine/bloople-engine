@@ -3,7 +3,7 @@
 //----------
 
 bool game_logic::init() {
-	s = fwk->load_sprite("/home/muon/Documents/programming/cpp/sdl/winona/fence.png");
+	s = fwk->load_sprite("resources/fence.png");
 	s->location.x = 0;
 	s->location.y = 0;
 	s->mask.x = 0;
