@@ -1,11 +1,7 @@
 #ifndef MESSAGEBUS_H
 #define MESSAGEBUS_H
 
-#include <queue>
 #include <deque>
-#include <mutex>
-#include <atomic>
-#include <thread>
 #include <iostream>
 
 #include "message.h"
@@ -30,28 +26,11 @@ private:
 	
 	std::vector<subsystem*> systems;
 	std::vector<subsystem*>::iterator sysiterator;
-
-	//manage multithreaded resources
-	std::mutex deque_mutex;
-	
-	//threadpool!
-	int num_threads;
-	std::vector<std::thread*> threads;
-	void thread_loop();
-
-	//communicate with threads
-	std::mutex relay_mutex;
-	std::queue<relay*> relay_queue;
-
-	//stuff for synchronizing threads
-	std::atomic<bool> synch;
-	std::atomic<int> synch_count;
-	void synchronize_threads();
 			
 public:
-	std::atomic<bool> running;
+	bool running;
 
-	message_bus(int num_threads);
+	message_bus() : running(true) {}
 	~message_bus();
 	void attach_system(subsystem* sys);
 	void post_message(message *msg);

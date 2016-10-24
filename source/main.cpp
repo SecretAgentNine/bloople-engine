@@ -14,7 +14,7 @@ int main() {
 		return -1; 
 	}
 
-	message_bus bus(4);
+	message_bus bus;
 
 	render_system r (&fwk, &bus);
 	input_system i (&fwk, &bus);
@@ -28,9 +28,6 @@ int main() {
 	bus.running = true;
 
 	while(bus.running) {
-		i.get_events();
-		logic.update();
-
 		bus.update();
 	}
 

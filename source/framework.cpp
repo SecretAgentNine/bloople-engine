@@ -8,6 +8,7 @@ bool framework::init() {
 	}
 
 	//create the window and renderer
+	window = NULL; renderer = NULL;
 	window = SDL_CreateWindow("Winona", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 					400,
 					400,

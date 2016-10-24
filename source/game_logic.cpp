@@ -55,8 +55,7 @@ void game_logic::handle_message( message *msg ) {
 			{
 				message *m = new message;
 				m->type = QUIT;
-				//bus->post_immediate_message(m);
-				delete m;
+				bus->post_message(m);
 				break;
 			}
 			default: { break; }
