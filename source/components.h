@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
+#include <queue>
 
 #include "framework.h"
 #include "message_bus.h"
@@ -25,12 +26,14 @@ protected:
 	char flags;
 	
 public:
-	static const char draw_flag   = 0b00000001;
+	static const char draw_flag   = 0b00000001;		//flags to receive various message types
 	static const char render_flag = 0b00000010;
 	static const char input_flag  = 0b00000100;
+	static const char update_flag = 0b10000000;
 
 	subsystem(framework *f, message_bus *m) : fwk(f), bus(m) {}
 	virtual void handle_message(message *msg) {}
+	virtual void update() {}
 	char get_flags() { return flags; }
 };
 
@@ -54,7 +57,7 @@ public:
 class input_system : public subsystem {
 protected:
 	std::map<SDL_Keycode, keycode> keymapping {		//mapping SDL keycodes onto the custom keycodes
-	{SDLK_0, KEY_0},
+	{SDLK_0, KEY_0},								//(I really hope I don't switch from SDL input because I really don't want to rewrite this table)
 	{SDLK_1, KEY_1},
 	{SDLK_2, KEY_2},
 	{SDLK_3, KEY_3},
@@ -149,16 +152,20 @@ protected:
 	{SDLK_z, KEY_z}};
 
 public:
-	input_system(framework *f, message_bus *m) : subsystem(f,m) { flags = 0; }
-	void get_events();
+	input_system(framework *f, message_bus *m) : subsystem(f,m) { flags = subsystem::update_flag; }
+	void update();
 };
+
+//----------
+//**********
+//----------
 
 class game_logic : public subsystem {
 protected:
 	sprite *s;
 
 public:
-	game_logic(framework *f, message_bus *m) : subsystem(f,m) { flags = subsystem::input_flag; }
+	game_logic(framework *f, message_bus *m);
 	~game_logic();
 	bool init();
 	void handle_message( message *msg );

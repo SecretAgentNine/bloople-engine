@@ -5,9 +5,9 @@
 void render_system::handle_message (message *msg) {
 	switch (msg->type)	 {
 		case DRAW:
-			draw_list.push_back(msg->draw.sp);
+			draw_list.push_back(msg->draw.sp);	//add a sprite to the draw list
 			break;
-		case RENDER:
+		case RENDER:							//render and erase the draw_list
 			fwk->render(&draw_list);
 			draw_list.erase(draw_list.cbegin(), draw_list.cend());
 			break;
@@ -18,7 +18,7 @@ void render_system::handle_message (message *msg) {
 //**********
 //----------
 
-void input_system::get_events() {
+void input_system::update() {
 	SDL_Event event;
 	while(SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
