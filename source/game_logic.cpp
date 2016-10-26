@@ -2,7 +2,8 @@
 
 //----------
 
-bool game_logic::init() {
+game_logic::game_logic() : subsystem(f,m) { 
+	flags = subsystem::input_flag | subsystem::update_flag;
 	s = fwk->load_sprite("resources/fence.png");
 	s->location.x = 0;
 	s->location.y = 0;
@@ -14,7 +15,6 @@ bool game_logic::init() {
 	int w, h;
 	s->get_attributes(&w, &h);
 	std::cout << w << ", " << h << "\n";
-	return true;
 }
 
 //----------

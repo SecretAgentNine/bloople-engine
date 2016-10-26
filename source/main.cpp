@@ -23,7 +23,6 @@ int main() {
 	bus.attach_system(&r);
 	bus.attach_system(&i);
 	bus.attach_system(&logic);
-	logic.init();
 
 	bus.running = true;
 
