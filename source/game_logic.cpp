@@ -2,7 +2,7 @@
 
 //----------
 
-game_logic::game_logic() : subsystem(f,m) { 
+game_logic::game_logic(framework* f, message_bus* m) : subsystem(f,m) { 
 	flags = subsystem::input_flag | subsystem::update_flag;
 	s = fwk->load_sprite("resources/fence.png");
 	s->location.x = 0;

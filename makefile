@@ -31,3 +31,8 @@ game_logic:
 	g++ -I./source -I/usr/include/SDL2 -I/usr/include/SDL_image/ -std=c++11 -c source/game_logic.cpp
 	mv *.o obj/
 	make link
+
+upload:
+	git add source/*
+	git commit
+	git push

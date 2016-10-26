@@ -12,7 +12,7 @@ class scene {
 private:
 
 public:
-	scene {}
+	scene() {}
 	virtual void update();
 	virtual void handle_message(message *msg);
 };
@@ -24,5 +24,6 @@ public:
 	generic_scene();
 	void update();
 	void handle_message(message *msg);
+};
 
 #endif
