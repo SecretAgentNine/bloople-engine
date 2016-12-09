@@ -3,6 +3,7 @@
 
 #include "framework.h"
 #include "keycodes.h"
+#include <vector>
 
 //input messages
 typedef enum {
@@ -58,6 +59,20 @@ struct message {
 		render_message render;
 		input_message input;
 	};
+};
+
+//----------
+//structs for loading scene resources
+
+typedef enum {
+	NONE,
+	MENU,
+	EXIT
+} logic_option;
+
+struct logic_message {
+	std::vector<message*> messages;
+	logic_option option;
 };
 
 //----------

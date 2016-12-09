@@ -17,10 +17,12 @@
 
 struct box {
 	int x, y, w, h;
+	box (int x, int y, int w, int h) : x(x), y(y), w(w), h(h) {}
 };
 
 struct point {
 	int x, y;
+	point (int x, int y) : x(x), y(y) {}
 };
 
 //----------
@@ -44,7 +46,7 @@ public:
 	~sprite();
 	bool get_attributes(int *w, int *h);
 	point location;
-	box mask;
+	box mask;				//set w = h = -1 to turn off the mask
 };
 
 //----------
@@ -69,6 +71,8 @@ public:
 	}
 	bool init();
 	sprite* load_sprite(const char* filename);
+	sprite* load_sprite(const char* filename, int x, int y);
+	sprite* load_sprite(const char* filename, int x, int y, int mask_w, int mask_h);
 	void render(std::vector<sprite*> *sprites);	
 };
 

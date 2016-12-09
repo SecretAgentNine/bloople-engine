@@ -1,5 +1,7 @@
 #include "components.h"
 
+subsystem::subsystem(framework *f, message_bus *m) : fwk(f), bus(m) { bus->attach_system(this); }
+
 //----------
 
 void render_system::handle_message (message *msg) {

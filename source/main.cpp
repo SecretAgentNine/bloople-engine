@@ -20,10 +20,6 @@ int main() {
 	input_system i (&fwk, &bus);
 	game_logic logic (&fwk, &bus);
 
-	bus.attach_system(&r);
-	bus.attach_system(&i);
-	bus.attach_system(&logic);
-
 	bus.running = true;
 
 	while(bus.running) {

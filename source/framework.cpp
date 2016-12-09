@@ -74,6 +74,49 @@ sprite* framework::load_sprite(const char* filename) {
 
 //----------
 
+sprite* framework::load_sprite(const char* filename, int x, int y) {
+	SDL_Surface *tmp = NULL;
+	SDL_Texture *tex = NULL;
+	
+	//load image and convert to texture
+	tmp = IMG_Load(filename);
+	tex = SDL_CreateTextureFromSurface(renderer, tmp);
+	SDL_FreeSurface(tmp);
+
+	//freak out if something went wrong
+	if (tex == NULL) {
+		std::cerr << "ERROR: Could not load file " << filename << ": " << SDL_GetError() << "\n";
+		throw "BAD FILE";
+	}
+	sprite *s = new sprite(tex);
+	s->location = point(x,y);
+	return s;
+}
+
+//----------
+
+sprite* framework::load_sprite(const char* filename, int x, int y, int mask_w, int mask_h) {
+	SDL_Surface *tmp = nullptr;
+	SDL_Texture *tex = nullptr;
+	
+	//load image and convert to texture
+	tmp = IMG_Load(filename);
+	tex = SDL_CreateTextureFromSurface(renderer, tmp);
+	SDL_FreeSurface(tmp);
+
+	//freak out if something went wrong
+	if (tex == nullptr) {
+		std::cerr << "ERROR: Could not load file " << filename << ": " << SDL_GetError() << "\n";
+		throw "BAD FILE";
+	}
+	sprite *s = new sprite(tex);
+	s->location = point(x,y);
+	s->mask = box(0,0,mask_w,mask_h);
+	return s;
+}
+
+//----------
+
 void framework::render(std::vector<sprite*> *sprites) {
 	//clear the screen
 	SDL_RenderClear(renderer);
@@ -88,6 +131,7 @@ void framework::render(std::vector<sprite*> *sprites) {
 			maskrect = NULL;
 			int width, height;
 			(*i)->get_attributes(&width, &height);
+			//std::cout << "(" << width << ", " << height << ")\n";
 			destrect->w = width;
 			destrect->h = height;
 		}
@@ -106,6 +150,7 @@ void framework::render(std::vector<sprite*> *sprites) {
 		//set the location to render to
 		destrect->x = (*i)->location.x;
 		destrect->y = (*i)->location.y;
+		int w, h;
 		//std::cout << "rendering at (" << destrect->x << "," << destrect->y << ")\n";
 
 		//render and clean up
@@ -121,13 +166,13 @@ void framework::render(std::vector<sprite*> *sprites) {
 //**********
 //----------
 
-sprite::sprite() {
-	texture = NULL;
+sprite::sprite() : location(point(0,0)), mask(box(0,0,-1,-1)) {
+	texture = nullptr;
 }
 
 //----------
 
-sprite::sprite(SDL_Texture *t) {
+sprite::sprite(SDL_Texture *t) : location(point(0,0)), mask(box(0,0,-1,-1)) {
 	texture = t;
 }
 

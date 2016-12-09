@@ -3,18 +3,12 @@
 
 #include <deque>
 #include <iostream>
+#include <map>
 
 #include "message.h"
 #include "components.h"
 
 class subsystem;
-
-//----------
-
-struct relay {
-	message* msg;
-	subsystem* sys;
-};
 
 //----------
 //**********
@@ -26,11 +20,13 @@ private:
 	
 	std::vector<subsystem*> systems;
 	std::vector<subsystem*>::iterator sysiterator;
+
+	std::map<message_type, char> flag_mapping;
 			
 public:
 	bool running;
 
-	message_bus() : running(true) {}
+	message_bus();
 	~message_bus();
 	void attach_system(subsystem* sys);
 	void post_message(message *msg);

@@ -11,6 +11,7 @@
 #include "message_bus.h"
 #include "message.h"
 #include "keycodes.h"
+#include "scene.h"
 
 //----------
 //**********
@@ -31,7 +32,7 @@ public:
 	static const char input_flag  = 0b00000100;
 	static const char update_flag = 0b10000000;
 
-	subsystem(framework *f, message_bus *m) : fwk(f), bus(m) {}
+	subsystem(framework *f, message_bus *m);
 	virtual void handle_message(message *msg) {}
 	virtual void update() {}
 	char get_flags() { return flags; }
@@ -57,7 +58,7 @@ public:
 class input_system : public subsystem {
 protected:
 	std::map<SDL_Keycode, keycode> keymapping {		//mapping SDL keycodes onto the custom keycodes
-	{SDLK_0, KEY_0},								//(I really hope I don't switch from SDL input because I really don't want to rewrite this table)
+	{SDLK_0, KEY_0},															//(I really hope this doesn't switch from SDL input because I really don't want to rewrite this table)
 	{SDLK_1, KEY_1},
 	{SDLK_2, KEY_2},
 	{SDLK_3, KEY_3},
@@ -162,14 +163,16 @@ public:
 
 class game_logic : public subsystem {
 protected:
-	sprite *s;
+	scene* current_scene = nullptr;
+	scene* default_scene = nullptr;
+	logic_message msg_buffer;
 
 public:
 	game_logic(framework *f, message_bus *m);
 	~game_logic();
-	bool init();
 	void handle_message( message *msg );
 	void update();
+	void load_scene(scene* _scene);
 };
 
 #endif

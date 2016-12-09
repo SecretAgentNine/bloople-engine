@@ -1,5 +1,12 @@
 #include "message_bus.h"
 
+message_bus::message_bus() : running(true) {
+	flag_mapping = {
+	{DRAW, subsystem::draw_flag},
+	{RENDER, subsystem::render_flag},
+	{INPUT, subsystem::input_flag}};
+}
+
 void message_bus::attach_system(subsystem* sys) {
 	systems.push_back(sys);
 }
@@ -37,22 +44,14 @@ void message_bus::update() {
 		char flag;
 
 		//set the flags for the message we're sending
-		switch (msg->type) {
-		case DRAW:
-			flag = subsystem::draw_flag;
-			break;
-		case RENDER:
-			flag = subsystem::render_flag;
-			break;
-		case INPUT:
-			std::cout << "received key " << msg->input.keydown.key << "\n";
-			flag = subsystem::input_flag;
-			break;
-		case QUIT:
+		if (msg->type == QUIT) {
 			std::cout << "exiting!\n";
 			running = false;
 			break;
 		}
+		else { flag = flag_mapping[msg->type]; }
+
+
 		//send the messages off to be handled by the threads
 		for (sysiterator = systems.begin(); sysiterator != systems.end(); sysiterator++) {
 			if (((*sysiterator)->get_flags() & flag) == flag) {
