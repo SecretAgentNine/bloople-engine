@@ -5,7 +5,7 @@ compile:
 	mv *.o obj/
 
 link:
-	g++ -std=c++11 -o game -pthread obj/main.o obj/game_logic.o obj/components.o obj/message_bus.o obj/framework.o obj/tinyxml2.o -lSDL2_mixer -lSDL2_image -lSDL2
+	g++ -std=c++11 -o game -pthread obj/main.o obj/game_logic.o obj/components.o obj/scene.o obj/message_bus.o obj/framework.o obj/tinyxml2.o -lSDL2_mixer -lSDL2_image -lSDL2
 
 framework:
 	g++ -I./source -I/usr/include/SDL2 -I/usr/include/SDL_image/ -std=c++11 -c source/framework.cpp
@@ -29,6 +29,11 @@ main:
 
 game_logic:
 	g++ -I./source -I/usr/include/SDL2 -I/usr/include/SDL_image/ -std=c++11 -c source/game_logic.cpp
+	mv *.o obj/
+	make link
+
+scene:
+	g++ -I./source -I/usr/include/SDL2 -I/usr/include/SDL_image/ -std=c++11 -c source/scene.cpp
 	mv *.o obj/
 	make link
 
