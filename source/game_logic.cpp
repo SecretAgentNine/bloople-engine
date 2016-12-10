@@ -2,9 +2,10 @@
 
 //----------
 
-game_logic::game_logic(framework* f, message_bus* m) : subsystem(f,m) { 
+game_logic::game_logic(framework* f, message_bus* m, int fps) : subsystem(f,m), fps(fps) { 
 	flags = subsystem::input_flag | subsystem::update_flag;
-	default_scene = new generic_scene(fwk);
+	//std::cout << "makin' a scene\n";
+	default_scene = new generic_scene(fwk, fps);
 
 	load_scene(default_scene);
 }

@@ -4,17 +4,21 @@
 #include "framework.h"
 #include "message.h"
 #include <iostream>
-#include <chrono>
 
 //----------
 
 class scene {
 protected:
 	logic_message msg_buffer;
-	//std::chrono::time_point<std::chrono::steady_clock> prevtime;
+	Uint32 prevtime;
+	Uint32 now;
+	int fps, frametime;
 
 public:
-	scene(framework* fwk) {}
+	scene(framework* fwk, int frames_per_second) : fps(frames_per_second) {
+		frametime = (int) ((1/((float) fps)) * 1000);	
+	}
+	virtual ~scene() { }
 	virtual logic_message update() = 0;
 	virtual void handle_message(message *msg) = 0;
 };
@@ -27,7 +31,8 @@ private:
 	sprite* fence_sprite = nullptr;
 
 public:
-	generic_scene(framework* fwk);
+	generic_scene(framework* fwk, int frames_per_second);
+	~generic_scene();
 	logic_message update();
 	void handle_message(message *msg);
 };

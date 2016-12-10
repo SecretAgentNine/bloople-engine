@@ -5,6 +5,8 @@
 #include "message_bus.h"
 #include "framework.h"
 
+const int fps = 120;
+
 //----------
 
 int main() {
@@ -18,7 +20,7 @@ int main() {
 
 	render_system r (&fwk, &bus);
 	input_system i (&fwk, &bus);
-	game_logic logic (&fwk, &bus);
+	game_logic logic (&fwk, &bus, fps);
 
 	bus.running = true;
 

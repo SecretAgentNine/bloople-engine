@@ -10,6 +10,8 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <thread>
+#include <chrono>
 
 #include "keycodes.h"
 
@@ -75,5 +77,10 @@ public:
 	sprite* load_sprite(const char* filename, int x, int y, int mask_w, int mask_h);
 	void render(std::vector<sprite*> *sprites);	
 };
+
+//----------
+
+Uint32 get_millis();
+void delay_millis(int ms);
 
 #endif

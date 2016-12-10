@@ -166,9 +166,10 @@ protected:
 	scene* current_scene = nullptr;
 	scene* default_scene = nullptr;
 	logic_message msg_buffer;
+	int fps;
 
 public:
-	game_logic(framework *f, message_bus *m);
+	game_logic(framework *f, message_bus *m, int fps);
 	~game_logic();
 	void handle_message( message *msg );
 	void update();

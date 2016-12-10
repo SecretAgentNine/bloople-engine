@@ -188,3 +188,15 @@ bool sprite::get_attributes(int *w, int *h) {
 sprite::~sprite() {
 	SDL_DestroyTexture(texture);
 }
+
+//----------
+
+Uint32 get_millis() {
+	return SDL_GetTicks();
+}
+
+//----------
+
+void delay_millis(int ms) {
+	std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}

@@ -1,22 +1,31 @@
 #include "scene.h"
 
-using us = std::chrono::microseconds;
-using sclock = std::chrono::steady_clock;
-
-generic_scene::generic_scene(framework* fwk) : scene(fwk) {
+generic_scene::generic_scene(framework* fwk, int frames_per_second) : scene(fwk, frames_per_second) {
 	fence_sprite = fwk->load_sprite("resources/fence.png", 10, 10);
 	quit = false;
-	//prevtime = sclock::now();
+	prevtime = get_millis();
+}
+
+//----------
+
+generic_scene::~generic_scene() {
+	delete fence_sprite;
 }
 
 //----------
 
 logic_message generic_scene::update() {
-	//std::cout << "time since previous loop: " << std::chrono::duration_cast<us>(sclock::now()-prevtime).count() << " us\n";
-	//prevtime = sclock::now();
+	now = get_millis();
+
+	//limit the framerate
+	if (now - prevtime < frametime) {
+		delay_millis(frametime-now+prevtime);
+	}
+	prevtime = get_millis();
+
 	msg_buffer.messages.clear();
 
-	if (quit) {
+	if (quit) {		//quit immediately
 		message *msg = new message;
 		msg->type = QUIT;
 		msg_buffer.messages.push_back(msg);
@@ -33,6 +42,7 @@ logic_message generic_scene::update() {
 	msg_buffer.messages.push_back(msg);
 	
 	msg_buffer.option = NONE;
+
 	return msg_buffer;
 }
 
@@ -77,5 +87,3 @@ switch (msg->type) {
 		break;
 	}
 }
-
-

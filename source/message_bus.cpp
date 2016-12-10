@@ -52,7 +52,7 @@ void message_bus::update() {
 		else { flag = flag_mapping[msg->type]; }
 
 
-		//send the messages off to be handled by the threads
+		//send the messages off to be handled by the subsystems
 		for (sysiterator = systems.begin(); sysiterator != systems.end(); sysiterator++) {
 			if (((*sysiterator)->get_flags() & flag) == flag) {
 				(*sysiterator)->handle_message(msg);
