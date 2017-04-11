@@ -1,3 +1,2 @@
-# In Bloom
-
-This is the source code for our game In Bloom.
+# bloople engine
+Just a simple SDL-based game engine for C++. Nothing fancy.
