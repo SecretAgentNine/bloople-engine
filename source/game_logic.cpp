@@ -13,6 +13,7 @@ game_logic::game_logic(framework* f, message_bus* m, int fps) : subsystem(f,m), 
 //----------
 
 game_logic::~game_logic() {
+	std::cout << "cya!\n";
 	delete default_scene;
 }
 

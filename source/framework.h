@@ -67,9 +67,9 @@ public:
 	~framework() {
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(window); 
-		IMG_Quit();		
+		IMG_Quit();
+		Mix_Quit();		
 		SDL_Quit();
-		std::cout << "framework exited successfully\n"; 
 	}
 	bool init();
 	sprite* load_sprite(const char* filename);
@@ -79,6 +79,26 @@ public:
 };
 
 //----------
+
+class sound {
+protected:
+	Mix_Chunk *chunk = nullptr;
+	
+public:
+	int channel;
+
+	sound(const char* filename) {
+		chunk = Mix_LoadWAV(filename);
+		if (!chunk) {
+			std::cerr << "error: failed to load audio file " << filename << std::endl;
+			throw "BAD FILE";
+		}
+	}
+	
+	~sound() {
+		Mix_FreeChunk(chunk);
+	}
+};
 
 Uint32 get_millis();
 void delay_millis(int ms);

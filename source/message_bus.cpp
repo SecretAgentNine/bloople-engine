@@ -46,8 +46,7 @@ void message_bus::update() {
 		//set the flags for the message we're sending
 		if (msg->type == QUIT) {
 			std::cout << "exiting!\n";
-			running = false;
-			break;
+			running = false;		//hand off to the rest of the subsystems
 		}
 		else { flag = flag_mapping[msg->type]; }
 

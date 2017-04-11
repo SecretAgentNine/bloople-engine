@@ -30,9 +30,11 @@ public:
 	static const char draw_flag   = 0b00000001;		//flags to receive various message types
 	static const char render_flag = 0b00000010;
 	static const char input_flag  = 0b00000100;
+	static const char audio_flag  = 0b00001000;
 	static const char update_flag = 0b10000000;
 
 	subsystem(framework *f, message_bus *m);
+	virtual ~subsystem() {}
 	virtual void handle_message(message *msg) {}
 	virtual void update() {}
 	char get_flags() { return flags; }
@@ -174,6 +176,21 @@ public:
 	void handle_message( message *msg );
 	void update();
 	void load_scene(scene* _scene);
+};
+
+//----------
+//**********
+//----------
+
+class audio_system : public subsystem {
+protected:
+	
+
+public:
+	audio_system(framework* f, message_bus *m);
+	void handle_message(message *msg);
+	//void update();
+	//~audio_system();
 };
 
 #endif

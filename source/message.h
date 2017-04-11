@@ -19,9 +19,55 @@ struct key_up {
 	keycode key;
 };
 
+struct input_message {
+	input_type type;
+	union {
+		key_down keydown;
+		key_up keyup;
+	};
+};
 
 //----------
 
+//audio messages
+typedef enum {
+	PLAY,
+	PAUSE,
+	FADEIN,
+	FADEOUT
+} audio_type;
+
+struct play_audio {
+	sound* audio;
+	int loops;
+};
+
+struct pause_audio {
+	sound* audio;
+};
+
+struct fadein_audio {
+	sound* audio;
+	int loops;
+	int milliseconds;
+};
+
+struct fadeout_audio {
+	sound* audio;
+	int milliseconds;
+};
+
+struct audio_message {
+	audio_type type;
+	union {
+		play_audio play;
+		pause_audio pause;
+		fadein_audio fadein;
+		fadeout_audio fadeout;
+	};
+};
+
+//----------
 typedef enum {
 	DRAW,
 	RENDER,
@@ -37,27 +83,13 @@ struct render_message {
 	int num;
 };
 
-struct input_message {
-	input_type type;
-	union {
-		key_down keydown;
-		key_up keyup;
-	};
-};
-
-/*struct audio_message {
-	audio_type type;
-	union {
-		//stuff
-	};
-}; //*/
-
 struct message {
 	message_type type;
 	union {
 		draw_message draw;
 		render_message render;
 		input_message input;
+		audio_message audio;
 	};
 };
 
