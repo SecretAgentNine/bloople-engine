@@ -2,6 +2,7 @@
 
 generic_scene::generic_scene(framework* fwk, int frames_per_second) : scene(fwk, frames_per_second) {
 	fence_sprite = fwk->load_sprite("resources/fence.png", 10, 10);
+	fence_sprite->set_alpha(127);
 	quit = false;
 	prevtime = get_millis();
 }

@@ -41,12 +41,15 @@ class sprite {
 friend class framework;
 protected:
 	SDL_Texture *texture;
+	Uint8 cur_alpha;
 
 public:
 	sprite();
 	sprite(SDL_Texture *t);
 	~sprite();
 	bool get_attributes(int *w, int *h);
+	bool set_alpha(Uint8 new_alpha);
+	Uint8 get_alpha();
 	point location;
 	box mask;				//set w = h = -1 to turn off the mask
 };
@@ -58,6 +61,7 @@ public:
 class framework {
 protected:
 	bool running;
+	bool alphamod_supported;
 	
 	SDL_Renderer *renderer;
 	SDL_Window *window;

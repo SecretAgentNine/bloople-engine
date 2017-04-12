@@ -166,13 +166,13 @@ void framework::render(std::vector<sprite*> *sprites) {
 //**********
 //----------
 
-sprite::sprite() : location(point(0,0)), mask(box(0,0,-1,-1)) {
+sprite::sprite() : location(point(0,0)), mask(box(0,0,-1,-1)), cur_alpha(255) {
 	texture = nullptr;
 }
 
 //----------
 
-sprite::sprite(SDL_Texture *t) : location(point(0,0)), mask(box(0,0,-1,-1)) {
+sprite::sprite(SDL_Texture *t) : location(point(0,0)), mask(box(0,0,-1,-1)), cur_alpha(255) {
 	texture = t;
 }
 
@@ -181,6 +181,24 @@ sprite::sprite(SDL_Texture *t) : location(point(0,0)), mask(box(0,0,-1,-1)) {
 bool sprite::get_attributes(int *w, int *h) {
 	if (!SDL_QueryTexture(texture, NULL, NULL, w, h)) { return true; }
 	else { return false; }
+}
+
+//----------
+
+bool sprite::set_alpha(Uint8 new_alpha) {
+	if (texture != nullptr)
+		if (SDL_SetTextureAlphaMod(texture, new_alpha)) {
+			cur_alpha = new_alpha;
+			return true;
+		}
+	
+	return false;
+}
+
+//----------
+
+Uint8 sprite::get_alpha() {
+	return cur_alpha;
 }
 
 //----------
